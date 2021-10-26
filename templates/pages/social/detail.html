@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tailwind_filters %}
+
+{% load humanize %}
+
+{% block title %}{{user.username}} Details{% endblock title %}
+{% block extra_head %}{% endblock extra_head %}
+
+<!-- NAVBAR -->
+{% block navbar %}
+{% include 'components/navbar.html' %}
+{% endblock navbar %}
+
+
+<!-- MAIN -->
+<!-- left sidebar -->
+{% block left_sidebar %}
+{% include 'components/sidebars/left/sidebar.html' %}
+{% endblock left_sidebar %}
+
+<!-- main content -->
+{% block content %}
+
+{% endblock content %}
+
+<!-- right content -->
+{% block right_sidebar %}
+{% endblock right_sidebar %}
+
+
+<!-- FOOTER -->
+{% block footer %}
+
+{% endblock footer %}
+
+
+{% block javascript %}{% endblock javascript %}
