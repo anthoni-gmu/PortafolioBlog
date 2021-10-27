@@ -6,17 +6,9 @@ from social.forms import SocialPostForm
 from social.models import Image, SocialPost, SocialComment
 
 
-class HomeView(LoginRequiredMixin, View):
+class HomeView(View):
     def get(self, request, *args, **kwargs):
-        logged_in_user = request.user
-
-        posts = SocialPost.objects.filter(author__profile__followers__in=[
-                                          logged_in_user.id]).order_by('-create_on')
-
-        form = SocialPostForm()
         context = {
-            'posts': posts,
-            'form': form,
         }
         return render(request, 'pages/index.html', context)
 
