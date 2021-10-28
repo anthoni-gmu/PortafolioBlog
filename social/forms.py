@@ -3,6 +3,8 @@ from .models import SocialPost, SocialComment
 
 
 class SocialPostForm(forms.ModelForm):
+    
+    
     body = forms.CharField(widget=forms.Textarea(attrs={
             'class': 'shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-dark-third dark:border-dark-third dark:text-dark-txt flex max-w-full sm:text-sm border-gray-300 rounded-md',
             'rows': '3',

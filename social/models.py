@@ -18,7 +18,8 @@ CATEGORIA_OPTIONS=(
     ('LINUX','LINUX'),
 )
 class SocialPost(models.Model):
-    title=models.CharField(max_length=400,null=True,blank=True)   
+    title=models.CharField(max_length=400,null=True,blank=True) 
+    description=models.CharField(max_length=400,null=True,blank=True)  
     banner=models.ImageField(default='users/user_default_bg.jpg',upload_to=user_directory_path)
     body=models.TextField()
     image=models.ManyToManyField('Image',blank=True)
