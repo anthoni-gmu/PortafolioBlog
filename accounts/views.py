@@ -22,6 +22,7 @@ class UserProfileView(View):
         logged_in_user = request.user
         posts=SocialPost.objects.filter(author__profile__in=[profile.id]).order_by('-create_on')
         
+        
         followers = profile.followers.all()
         number_of_posts=len(posts)
         form=SocialPostForm()

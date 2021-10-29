@@ -27,6 +27,23 @@ class SocialPost(models.Model):
     author=models.ForeignKey(User,on_delete=models.CASCADE,related_name='social_post_author')
     category=models.CharField(max_length=15,choices=CATEGORIA_OPTIONS,default='ALGORITMOS')
 
+ 
+BODY_OPTIONS=(
+    ('TITULO','TITULO'),
+    ('SUBTITULO','SUBTITULO'),
+    ('PARRAFO','PARRAFO'),
+    ('IMAGEN','IMAGEN'),
+    ('CODIGO','CODIGO'),
+)
+ 
+class BodyPost(models.Model):
+    post=models.ForeignKey('SocialPost',on_delete=models.CASCADE)
+    body=models.TextField(blank=True,null=True)
+    type=models.CharField(max_length=15,choices=BODY_OPTIONS,default='TITULO')
+    create_on = models.DateTimeField(default=timezone.now)
+    imagen=models.ImageField(blank=True,null=True,upload_to=user_directory_path)
+
+
     
 class SocialComment(models.Model):
     comment =models.TextField() 

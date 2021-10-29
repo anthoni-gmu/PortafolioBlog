@@ -2,8 +2,8 @@ from django.utils import timezone
 from django.shortcuts import render,redirect
 from django.urls.base import reverse_lazy
 from django.views.generic.base import View
-from .models import SocialPost, SocialComment
-from .forms import SocialCommentForm
+from .models import BodyPost, SocialPost, SocialComment
+from .forms import BodyPostForm, SocialCommentForm
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from django.views.generic.edit import UpdateView,DeleteView
 from django.http import HttpResponseRedirect,HttpResponse
@@ -12,26 +12,27 @@ from accounts.models import Profile
 class PostDetailView(LoginRequiredMixin,View):
     def get(self,request,pk, *args, **kwargs):
         post=SocialPost.objects.get(pk=pk)
-        form=SocialCommentForm()
         
+        form=BodyPostForm()
         comments=SocialComment.objects.filter(post=post).order_by('-create_on')
-        
+        bodyposts=BodyPost.objects.filter(post=post).order_by('create_on')
         context={
             'post':post,
             'form':form,
             'comments':comments,
+            'bodyposts':bodyposts
         }
         return render(request,'pages/social/detail.html',context)
     def post(self,request,pk, *args, **kwargs):
         post=SocialPost.objects.get(pk=pk)
-        form=SocialCommentForm(request.POST)
+        form=BodyPostForm(request.POST,request.FILES)
         comments=SocialComment.objects.filter(post=post).order_by('-create_on')
         
+        
         if form.is_valid():
-            new_comment=form.save(commit=False)
-            new_comment.author=request.user  
-            new_comment.post=post  
-            new_comment.save() 
+            new_comment = form.save(commit=False)
+            new_comment.post = post
+            new_comment.save()
 
         context={
             'post':post,
@@ -39,8 +40,8 @@ class PostDetailView(LoginRequiredMixin,View):
             'comments':comments,
         }
         
-        return render(request,'pages/social/detail.html',context)
-    
+        return redirect('social:post-detail', pk=pk)
+
 
 
 class PostEditView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
@@ -69,9 +70,6 @@ class PostDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
 
 
 
-
-        
-
 class CommentReplyView(LoginRequiredMixin, View):
     def post(self, request, post_pk, pk, *args, **kwargs):
         post=SocialPost.objects.get(pk=post_pk)
@@ -86,7 +84,20 @@ class CommentReplyView(LoginRequiredMixin, View):
             new_comment.save()
 
         return redirect('social:post-detail', pk=post_pk)
+    
+class AddBodyView(LoginRequiredMixin, View):
+    def post(self, request, post_pk, pk, *args, **kwargs):
+        post=SocialPost.objects.get(pk=pk)
 
+        form=BodyPostForm(request.POST,request.FILES)
+        
+
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.post = post
+            new_comment.save()
+
+        return redirect('social:post-detail', pk=pk)
 
 class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model=SocialComment
