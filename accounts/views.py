@@ -58,18 +58,12 @@ class UserProfileView(View):
         ).order_by('-create_on')
 
         form = SocialPostForm(request.POST, request.FILES)
-        files = request.FILES.getlist('image')
-
 
         if form.is_valid():
             new_post = form.save(commit=False)
             new_post.author = logged_in_user
             new_post.save()
-
-            for f in files:
-                img = Image(image=f)
-                img.save()
-                new_post.image.add(img)
+            form.save_m2m()
 
         context = {
             'form': form,

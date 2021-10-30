@@ -1,14 +1,7 @@
 from django import forms
-from .models import BodyPost, SocialPost, SocialComment
+from .models import BodyPost, SocialPost, SocialComment, Categories, Tags
 
-CATEGORIA_OPTIONS = (
-    ('WEB', 'WEB'),
-    ('ALGORITMOS', 'ALGORITMOS'),
-    ('REDES', 'REDES'),
-    ('SEGURIDAD', 'SEGURIDAD'),
-    ('DESKTOP', 'DESKTOP'),
-    ('LINUX', 'LINUX'),
-)
+
 BODY_OPTIONS = (
     ('TITULO', 'TITULO'),
     ('SUBTITULO', 'SUBTITULO'),
@@ -29,32 +22,21 @@ class SocialPostForm(forms.ModelForm):
         'rows': '2',
     }), required=True)
 
-    body = forms.CharField(widget=forms.Textarea(attrs={
-        'class': 'flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent',
-        'rows': '3',
-        'placeholder': 'contenido'
-    }), required=True)
-
     banner = forms.ImageField(label='Banner Picture',
-                              required=False, widget=forms.FileInput)
-
-    image = forms.FileField(widget=forms.ClearableFileInput(attrs={
-        'class': 'relative dark:text-dark-txt dark:bg-dark-second cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500',
-        'multiple': True
-    }), required=False)
-
-    category = forms.ChoiceField(widget=forms.Select(attrs={
-        'class': 'block w-52 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500',
-    }), choices=CATEGORIA_OPTIONS)
+                              required=True, widget=forms.FileInput)
+    label = forms.ModelMultipleChoiceField(
+        queryset=Tags.objects.all(), widget=forms.CheckboxSelectMultiple(),required=True)
+    category = forms.ModelMultipleChoiceField(
+        queryset=Categories.objects.all(), widget=forms.CheckboxSelectMultiple(),required=True)
 
     class Meta:
         model = SocialPost
-        fields = ['body', 'description', 'title',
-                  'category', 'banner', 'image']
+        fields = ['label', 'description', 'title',
+                  'category', 'banner', ]
 
 
 class BodyPostForm(forms.ModelForm):
-    type = forms.ChoiceField( required=True,widget=forms.Select(attrs={
+    type = forms.ChoiceField(required=True, widget=forms.Select(attrs={
         'class': 'block w-52 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500',
     }), choices=BODY_OPTIONS)
     body = forms.CharField(widget=forms.Textarea(attrs={

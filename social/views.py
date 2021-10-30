@@ -28,7 +28,6 @@ class PostDetailView(LoginRequiredMixin,View):
         form=BodyPostForm(request.POST,request.FILES)
         comments=SocialComment.objects.filter(post=post).order_by('-create_on')
         
-        
         if form.is_valid():
             new_comment = form.save(commit=False)
             new_comment.post = post
@@ -66,9 +65,6 @@ class PostDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
     def test_func(self):
         post = self.get_object()
         return self.request.user == post.author
-
-
-
 
 class CommentReplyView(LoginRequiredMixin, View):
     def post(self, request, post_pk, pk, *args, **kwargs):

@@ -1,13 +1,22 @@
 {% load static %}
 
 <header class="w-full container mx-auto">
-    <div class="flex flex-col items-center py-12">
-        <a class="font-bold text-gray-800 uppercase hover:text-gray-700 text-5xl" href="#">
-            devinfo
-        </a>
-        <p class="text-lg text-gray-600">
-            Blog orientado a la programación
-        </p>
+    <div class="flex justify-center items-center py-12">
+        <div class="">
+            <img class=" w-40 object-scale-down" src="{% static  'cobra.png' %}">
+        </div>
+        <div class="text-center font-mono ">
+            <a class="font-bold text-gray-800 uppercase hover:text-gray-700 text-5xl" href="#">
+                devinfo
+            </a>
+            <p class="text-lg text-gray-600">
+                Blog orientado a la <code class="text-green-100 rounded bg-gray-600  p-1 font-bold ">programación</code>.
+            </p>
+        </div>
+       
+       
+        <!-- <img class="lg:w-5/12 w-10/12 object-scale-down" src="{% static  'banner-page.png' %}"> -->
+
     </div>
 </header>
 
@@ -49,18 +58,15 @@
                     class="py-2 px-2 font-medium text-white bg-green-500 rounded hover:bg-green-400 transition duration-300">Sign
                     Up</a>
                 {% else %}
-                <div x-data="{ open: false }"
-                    class="bg-white  flex justify-center items-center">
+                <div x-data="{ open: false }" class="bg-white  flex justify-center items-center">
                     <div @click="open = !open" class="relative border-b-4  py-3"
                         :class="{'hover:border-green-500 transform transition duration-300 ': open}"
                         x-transition:enter-end="transform opacity-100 scale-100"
                         x-transition:leave="transition ease-in duration-75"
                         x-transition:leave-start="transform opacity-100 scale-100">
                         <div class="flex justify-center items-center space-x-3 cursor-pointer">
-                            <div
-                                class="w-12 h-12 rounded-full overflow-hidden border-2  border-gray-900">
-                                <img src="{{user.profile.pinture.url}}"
-                                    alt="" class="w-full h-full object-cover">
+                            <div class="w-12 h-12 rounded-full overflow-hidden border-2  border-gray-900">
+                                <img src="{{user.profile.pinture.url}}" alt="" class="w-full h-full object-cover">
                             </div>
                             <div class="font-semibold text-gray-900 text-lg">
                                 <div class="cursor-pointer">{{user.profile.user}}</div>
