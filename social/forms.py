@@ -22,8 +22,8 @@ class SocialPostForm(forms.ModelForm):
         'rows': '2',
     }), required=True)
 
-    banner = forms.ImageField(label='Banner Picture',
-                              required=True, widget=forms.FileInput)
+    banner = forms.ImageField(label='Banner',
+                              required=True, widget=forms.FileInput(attrs={'class':'',}))
     label = forms.ModelMultipleChoiceField(
         queryset=Tags.objects.all(), widget=forms.CheckboxSelectMultiple(),required=True)
     category = forms.ModelMultipleChoiceField(
