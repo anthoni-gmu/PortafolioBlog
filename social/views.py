@@ -14,13 +14,17 @@ from django.db.models import Count
 class PostDetailView(View):
     def get(self,request,pk, *args, **kwargs):
         post=SocialPost.objects.get(pk=pk)
-        categories=Categories.objects.all()
         form=BodyPostForm()
         comments=SocialComment.objects.filter(post=post).order_by('-create_on')
         bodyposts=BodyPost.objects.filter(post=post).order_by('create_on')
         formComment=SocialCommentForm()
+        
+        categories=Categories.objects.all()
         coutCate = SocialPost.objects.values('category').annotate(Count('category')).order_by('category')
         mylist = zip(categories, coutCate)
+        
+        relacionPost=SocialPost.objects.all()[:5]
+        
         context={
             'post':post,
             'form':form,
@@ -28,6 +32,7 @@ class PostDetailView(View):
             'bodyposts':bodyposts,
             'formComment':formComment,
             'mylist':mylist,
+            'relacionPost':relacionPost,
             
         }
         return render(request,'pages/social/detail.html',context)
@@ -44,16 +49,17 @@ class PostDetailView(View):
             'form':form,
         }
         return redirect('social:post-detail', pk=pk)
-# class CountCategory(View):
-#     def get(self, request, *args, **kwargs):
-#         query=self.request.GET.get('query')
-#         cate=SocialPost.objects.filter(Q(category__name__icontains=query))
-#         count=len(cate)
-#         context ={
-#             'count':count
-#         }
-#         return render(request,'pages/social/detail.html',context)
 
+class CategorySearch(View):
+    def get(self, request, *args, **kwargs):
+        query=self.request.GET.get('query')
+        category_list=SocialPost.objects.filter(Q(category__name=query))
+        context ={
+            'category_list':category_list,
+            'query':query
+        }
+        return render(request, 'pages/social/search.html',context)
+    
 
 
 
