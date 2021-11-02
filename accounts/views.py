@@ -136,3 +136,4 @@ class ListFollowers(View):
         followers=Profile.objects.all()
         context={"profile":profile,"followers":followers}
         return render(request,'pages/social/followers_list.html',context)
+    

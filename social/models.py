@@ -29,8 +29,8 @@ class Categories(models.Model):
 STATUS_OPTIONS = (
     ('PUBLISHED', 'PUBLISHED'),
     ('DRAF', 'DRAF'),
+    ('PENDING','PENDING')
 )
-
 
 class SocialPost(models.Model):
     title = models.CharField(max_length=400, null=True, blank=True)
@@ -44,6 +44,8 @@ class SocialPost(models.Model):
     label = models.ManyToManyField(Tags)
     status = models.CharField(
         max_length=15, choices=STATUS_OPTIONS, default='DRAF')
+    
+    
 
 
 BODY_OPTIONS = (
@@ -77,7 +79,6 @@ class SocialComment(models.Model):
     @property
     def children(self):
         return SocialComment.objects.filter(parent=self).order_by('-create_on').all()
-
     @property
     def is_parent(self):
         if self.parent is None:

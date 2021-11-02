@@ -1,7 +1,6 @@
 from django import forms
 from .models import BodyPost, SocialPost, SocialComment, Categories, Tags
 
-
 BODY_OPTIONS = (
     ('TITULO', 'TITULO'),
     ('SUBTITULO', 'SUBTITULO'),
@@ -9,7 +8,6 @@ BODY_OPTIONS = (
     ('IMAGEN', 'IMAGEN'),
     ('CODIGO', 'CODIGO'),
 )
-
 
 class SocialPostForm(forms.ModelForm):
     title = forms.CharField(widget=forms.TextInput(attrs={
@@ -55,9 +53,8 @@ class BodyPostForm(forms.ModelForm):
 class SocialCommentForm(forms.ModelForm):
     comment = forms.CharField(
         widget=forms.Textarea(attrs={
-            'class': 'shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-dark-third dark:border-dark-third dark:text-dark-txt flex max-w-full sm:text-sm border-gray-300 rounded-md',
-            'rows': '1',
-            'placeholder': 'Comment Something...'
+            'class': 'shadow-sm focus:ring-green-500 focus:border-green-500 dark:bg-dark-third dark:border-dark-third dark:text-dark-txt flex max-w-full sm:text-sm border-gray-300 rounded-md',
+            'placeholder': 'Escriba su comentario'
         }),
         required=True
     )
