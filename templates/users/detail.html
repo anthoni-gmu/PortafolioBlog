@@ -1,29 +1,29 @@
-{% extends 'users/base.html' %}
+{% extends 'base.html' %}
 
 {% load static %}
+
 {% load tailwind_tags %}
 {% load tailwind_filters %}
+
 {% load humanize %}
 
-
+{% block title %}Perfil | {{profile.user.username}}{% endblock title %}
 {% block navbar %}
-
+{% include 'components/navbar.html' %}
 {% endblock navbar %}
 
 {% block content %}
 
 
 <main class='min-h-screen w-full  overflow-x-hidden'>
-
-    <div class="profile-page">
-        <section class="relative block" style="height: 500px;">
-            <div class="absolute top-0 w-full h-full bg-center bg-cover"
+        <section class="" style="height: 500px;">
+            <div class="w-full h-full bg-center bg-cover"
                 style='background-image: url("{{profile.banner.url}}");'>
-                <span id="blackOverlay" class="w-full h-full absolute "></span>
+                <span id="blackOverlay" class="w-full h-full "></span>
             </div>
-            <div class="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden"
+            <div class="top-auto bottom-0 left-0 right-0 w-full  overflow-hidden"
                 style="height: 70px;">
-                <svg class="absolute bottom-0 overflow-hidden" xmlns="http://www.w3.org/2000/svg"
+                <svg class=" bottom-0 overflow-hidden" xmlns="http://www.w3.org/2000/svg"
                     preserveAspectRatio="none" version="1.1" viewBox="0 0 2560 100" x="0" y="0">
                     <polygon class="text-gray-300 fill-current" points="2560 0 2560 100 0 100"></polygon>
                 </svg>
@@ -333,7 +333,6 @@
 
             </div>
         </section>
-    </div>
 
 
 </main>

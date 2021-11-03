@@ -3,7 +3,7 @@
 {% load tailwind_tags %}
 {% load tailwind_filters %}
 {% load humanize %}
-{% block title %}{{user.username}}New Post for Fans{% endblock title %}
+{% block title %}Categoria | {{query}}{% endblock title %}
 {% block extra_head %}{% endblock extra_head %}
 
 <!-- NAVBAR -->
@@ -12,11 +12,6 @@
 {% endblock navbar %}
 
 
-<!-- MAIN -->
-<!-- left sidebar -->
-{% block left_sidebar %}
-{% include 'components/sidebars/left/sidebar.html' %}
-{% endblock left_sidebar %}
 
 <!-- main content -->
 {% block content %}
