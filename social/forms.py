@@ -21,7 +21,7 @@ class SocialPostForm(forms.ModelForm):
     }), required=True)
 
     banner = forms.ImageField(label='Banner',
-                              required=True, widget=forms.FileInput(attrs={'class':'',}))
+                              required=True, widget=forms.FileInput(attrs={'class':'w-full text-center flex flex-col items-center justify-center items-center ',}))
     label = forms.ModelMultipleChoiceField(
         queryset=Tags.objects.all(), widget=forms.CheckboxSelectMultiple(),required=True)
     category = forms.ModelMultipleChoiceField(
@@ -62,3 +62,4 @@ class SocialCommentForm(forms.ModelForm):
     class Meta:
         model = SocialComment
         fields = ['comment']
+        

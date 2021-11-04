@@ -2,6 +2,7 @@
 
 {% load static %}
 
+
 {% load tailwind_filters %}
 
 {% block title %}Editar Perfil | {{user.username}}{% endblock title %}
@@ -9,12 +10,12 @@
 
 {% block navbar %}
 {% endblock navbar %}
-
-{% block left_sidebar %}
+{% block left_sidebar %} 
 {% comment %} {% include 'components/sidebars/left/users/sidebar.html' %} {% endcomment %}
 {% endblock left_sidebar %}
 
 {% block content %}
+
 <!-- component -->
 <!-- Container -->
 <div class="container mx-auto">

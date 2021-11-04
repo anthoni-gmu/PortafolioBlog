@@ -10,6 +10,8 @@ from social.models import Image, SocialPost, SocialComment
 from django.contrib import messages
 from django.template import loader
 from django.http import HttpResponse
+from django.db.models import Count
+
 
 
 
@@ -21,8 +23,6 @@ class UserProfileView(View):
         profile=Profile.objects.get(user=user)
         logged_in_user = request.user
         posts=SocialPost.objects.filter(author__profile__in=[profile.id]).order_by('-create_on')
-        
-        
         followers = profile.followers.all()
         number_of_posts=len(posts)
         form=SocialPostForm()
@@ -71,8 +71,6 @@ class UserProfileView(View):
         }
         return redirect('users:profile', username=request.user.username)
         
-
-
 
 
 

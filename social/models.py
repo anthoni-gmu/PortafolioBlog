@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth import get_user_model
+
 User = get_user_model()
 
 
@@ -45,7 +46,12 @@ class SocialPost(models.Model):
     status = models.CharField(
         max_length=15, choices=STATUS_OPTIONS, default='DRAF')
     
+
+    @property
+    def get_comment_count(self):
+        return self.socialcomment_set.all().count()
     
+
 
 
 BODY_OPTIONS = (
@@ -84,7 +90,8 @@ class SocialComment(models.Model):
         if self.parent is None:
             return True
         return False
-
+      
+   
 
 class Image(models.Model):
     image = models.ImageField(

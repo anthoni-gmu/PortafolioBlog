@@ -29,11 +29,11 @@
                 </svg>
             </div>
         </section>
-        <section class="relative py-16  bg-gray-100">
+        <section class="relative pt-16 pb-4 bg-gray-100">
             <div class="container mx-auto md:px-4">
                 <div
                     class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64">
-                    <div class="px-6">
+                    <div class=" md:px-6 px-0">
                         <div class="flex flex-wrap justify-center">
                             <div class="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
                                 <div class="relative">
@@ -330,12 +330,15 @@
 
 
 
-
             </div>
+      
         </section>
+        
 
 
 </main>
+ 
+   
 <script>
     function toggleNavbar(collapseID) {
         document.getElementById(collapseID).classList.toggle("hidden");
@@ -343,3 +346,7 @@
     }
 </script>
 {% endblock content %}
+ {% block footer %}
+{% include 'components/footer.html' %}
+{% endblock footer %}
+ 

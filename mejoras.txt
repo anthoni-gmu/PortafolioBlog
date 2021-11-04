@@ -1,0 +1,80 @@
+Mejoras a implementar en mi sitio web
+--PRIMERA AUTOREVICIÓN 11-03-2021
+
+Paginas Web
+    1.Home Page
+        -Ilustraciones y construcción del main
+        -Marca{
+            *Logo
+            *Nombre
+        }
+        -Navbar Enlaces{
+            *Contacto
+            *Sobre mi
+            *Cusos[A futuro]
+            *Servicios[A futuro]
+        }
+        -Footer Enlaces
+        -Terminos y condiciones
+
+        --bug
+            :navbar-clicl perfil margin azul
+
+    2.Profile 
+        -Publicaciones{
+            *'Maximo tamaño de la descripción'
+            *views count [A futuro]
+            *Save Post {requiere slug}
+            *'Vinculo in Image and Title'
+            *Swap stade Post[A futuro]
+            *View user history [A futuro]
+            *'Cantidad de comentarios'
+            *'Responsive movil public post'
+        }
+        -Vinculos{
+            Instagram
+            Facebook 
+            Linkedin
+            Youtube
+            TikTop(Lo dudo)
+        }
+
+        -'Add Footer'
+    3.Post 
+        -Editar Comentario{
+            -Modal
+            -Icom (Lo dudo)
+            -Desplegable en responder
+            -Like(Posible)
+            -Corazon(Lo dudo)
+        }
+        -Elimanr Comentario{
+            -Modal
+            -Icom (Lo dudo)
+        }
+        -Update Articulos relacionados{[A futuro]}
+        -Update apariencia del contenido[A futuro]
+        -Categorias{
+            -Icono
+            -Last 5 mas views[Muy a futuro]
+            -Ver mas {
+                -Redireccione a Categorias[Crear]
+            }
+        }
+        -Tags{
+            -redireccionar a busqueda de tags
+        }    
+
+        --bug:
+            :modal agregar contenido resolucion 900aprox
+    4.Buscar categoria and tag
+        -Ver todas como nav 
+        -Limitar texto de descripción
+
+    5.Update Auth pages
+        -Diseño en todas
+        
+        
+        
+
+
