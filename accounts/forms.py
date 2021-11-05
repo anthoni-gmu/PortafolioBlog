@@ -1,5 +1,6 @@
 from accounts.models import Profile
 from django import forms
+from django.contrib.auth.models import AbstractUser
 
 
 class EditProfileForm(forms.ModelForm):

@@ -38,6 +38,7 @@ class UserProfileView(View):
         number_of_followers=len(followers)
         template=loader.get_template('users/detail.html')
         
+        
         context={
             'profile':profile,
             'posts':posts,
@@ -83,6 +84,7 @@ def EditProfile(request):
     user_basic_info=User.objects.get(id=user)
     if request.method == 'POST':
         form=EditProfileForm(request.POST,request.FILES,instance=profile)
+        
         if form.is_valid():
             user_basic_info.first_name=form.cleaned_data.get('first_name')
             user_basic_info.last_name=form.cleaned_data.get('last_name')

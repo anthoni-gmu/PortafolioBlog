@@ -30,6 +30,7 @@ Paginas Web
             *View user history [A futuro]
             *'Cantidad de comentarios'
             *'Responsive movil public post'
+            *'Desple editar y eliminar'
         }
         -Vinculos{
             Instagram

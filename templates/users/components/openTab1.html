@@ -107,7 +107,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <hr />
                                 <div class="px-4 pb-4 ml-auto text-gray-500 md:w-1/3">
                                     <button type="submit"
@@ -142,8 +142,69 @@
         <div class="grid gap-8 lg:grid-cols-3 sm:max-w-sm sm:mx-auto lg:max-w-full">
             {% for post in posts %}
             <div class="overflow-hidden transition-shadow duration-300 bg-white rounded shadow-sm">
-                <a href="{% url 'social:post-detail' post.pk %}"><img src="{{post.banner.url}}"
-                        class="object-cover w-full h-64" alt="{{post.title}}" /></a>
+                <div>
+                    <a href="{% url 'social:post-detail' post.pk %}" class="focus-visible:outline-none">
+                        <img src="{{post.banner.url}}" class="object-cover w-full h-64" alt="{{post.title}}" />
+                    </a>
+
+                </div>
+                {% if user.is_authenticated and user == profile.user %}
+
+                <div x-data="{ open: false }" class=" md:flex ">
+                    <div @click="open = !open" class=""
+                        :class="{'hover:border-green-500 transform transition duration-300 ': open}"
+                        x-transition:enter-end="transform " x-transition:leave="transition ease-in duration-75"
+                        x-transition:leave-start="transform ">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"
+                            style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+                            <path
+                                d="M12 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z">
+                            </path>
+                        </svg>
+                        <div x-show="open" x-transition:enter="transition ease-out duration-100"
+                            x-transition:enter-start="transform opacity-0 "
+                            x-transition:enter-end="transform opacity-100 "
+                            x-transition:leave="transition ease-in duration-75"
+                            x-transition:leave-start="transform opacity-100 "
+                            x-transition:leave-end="transform opacity-0 " class="absolute  px-5 py-3 bg-white border  ">
+                            <ul class="space-y-3 ">
+                                <li class="font-medium">
+                                    <a href="{% url 'social:post-edit' post.pk %}"
+                                        class="flex items-center transform transition-colors duration-200 border-r-4 border-transparent hover:text-green-400 focus-visible:outline-none">
+                                        <div class="mr-3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6  text-green-500 "
+                                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                            </svg>
+                                        </div>
+                                        Editar
+                                    </a>
+                                </li>
+
+                                <hr class="">
+                                <li class="font-medium">
+                                    <a href="{%url 'social:post-delete' post.pk  %}"
+                                        class="flex items-center transform transition-colors duration-200 border-r-4 border-transparent hover:text-red-400  focus-visible:outline-none">
+                                        <div class="mr-3 text-red-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500 "
+                                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                        </div>
+                                        Eliminar
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+                </div>
+                {% endif %}
+
                 <div class="p-5 border border-t-0">
                     <div class=" text-xl font-semibold tracking-wide flex-col flex  ">
 
@@ -156,20 +217,26 @@
                             </svg>
                             <span class="text-sm"> {{post.create_on|naturalday }}</span>
                         </p>
+
+
                     </div>
+
                     <a href="{% url 'social:post-detail' post.pk %}" aria-label="Category" title="Visit the East"
-                        class="inline-block mb-3 text-2xl font-bold leading-5 transition-colors duration-200 hover:text-deep-purple-accent-700 ">{{post.title|truncatechars:30}}</a>
+                        class="inline-block mb-3 text-2xl font-bold leading-5 transition-colors duration-200 hover:text-deep-purple-accent-700 focus-visible:outline-none">{{post.title|truncatechars:30}}</a>
                     <p class="mb-2 text-gray-700 text-justify">
                         {{post.description|truncatechars:100}}
                     </p>
 
-                    <div
-                        class="transition-colors duration-200 text-grem-gray-900 hover:text-deep-grem-accent-700 ">
+
+
+
+
+                    <div class="transition-colors duration-200 text-grem-gray-900 hover:text-deep-grem-accent-700 ">
                         {% for cat in post.category.all %}
                         <form action="{% url 'social:category-search' %}" method="GET" class="inline-flex">
                             <input type="hidden" name="query" value="{{cat.name}}" placeholder="Buscar por categoria">
                             <button type="submit"
-                                class="text-sm p-1 rounded-full text-green-500 border hover:border-green-400 focus-visible:outline-none ">{{cat.name}}</button>
+                                class="text-sm p-1 rounded-sm text-green-500 border hover:border-green-400 focus-visible:outline-none ">{{cat.name}}</button>
                         </form>
                         {% endfor %}
 
@@ -182,8 +249,9 @@
                             </path>
                         </svg>{{post.get_comment_count}}
                     </span>
-                  
-                  
+
+
+
                 </div>
             </div>
             {% endfor %}

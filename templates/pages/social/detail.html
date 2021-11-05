@@ -46,7 +46,7 @@
                     </svg>
                     {% for categoria in post.category.all %}
                     <a href="#"
-                        class="inline-flex mx-3 bg-green-500 text-white rounded-full h-6 px-3 justify-center items-center">
+                        class="inline-flex mx-3 bg-green-500 text-white rounded-full h-6 px-3 justify-center items-center ">
                         {{categoria}}
                     </a>
                     {% endfor %}
@@ -92,6 +92,8 @@
                 </div>
 
             </article>
+            {% if user.is_authenticated and user == post.author %}
+
             <div class=" flex md:justify-start mb-12 w-full" x-data="{ open: false }">
                 <div class="">
                     <div class="">
@@ -135,8 +137,9 @@
                             aria-hidden="true">&#8203;</span>
 
 
-                        <div class="inline-block align-bottom dark:bg-dark-second bg-white rounded-lg px-4
-                pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle">
+                        <div
+                            class="inline-block align-bottom dark:bg-dark-second bg-white rounded-lg px-4
+                            pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle">
                             <section class=" bg-gray-100 bg-opacity-50">
                                 <form method="POST" enctype="multipart/form-data" class="shadow-md ">
                                     {% csrf_token %}
@@ -152,16 +155,19 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div
-                                            class="items-center w-full p-4 space-y-4 text-gray-500 md:inline-flex md:space-y-0">
+                                            class="text-gray-500 items-center w-full p-4 space-y-4 lg:inline-flex lg:space-y-0 ">
                                             <h2 class="max-w-sm mx-auto md:w-1/3">
                                                 Imagen
                                             </h2>
                                             <div class="max-w-sm mx-auto md:w-2/3">
                                                 <div class=" relative ">
+
                                                     {{form.imagen}}
 
                                                 </div>
+
                                             </div>
                                         </div>
                                         <hr />
@@ -198,6 +204,7 @@
                 </div>
                 <!--End Modal-->
             </div>
+            {% endif %}
 
             <div x-data="{open:false}" class="py-2 px-4">
                 <div class="border border-gray-200 dark:border-dark-third border-l-0 border-r-0 py-1">

@@ -8,6 +8,12 @@ BODY_OPTIONS = (
     ('IMAGEN', 'IMAGEN'),
     ('CODIGO', 'CODIGO'),
 )
+STATUS_OPTIONS = (
+    ('PUBLISHED', 'PUBLISHED'),
+    ('DRAF', 'DRAF'),
+    ('PENDING', 'PENDING')
+)
+
 
 class SocialPostForm(forms.ModelForm):
     title = forms.CharField(widget=forms.TextInput(attrs={
@@ -21,11 +27,11 @@ class SocialPostForm(forms.ModelForm):
     }), required=True)
 
     banner = forms.ImageField(label='Banner',
-                              required=True, widget=forms.FileInput(attrs={'class':'w-full text-center flex flex-col items-center justify-center items-center ',}))
+                              required=True, widget=forms.FileInput(attrs={'class': 'w-full text-center flex flex-col items-center justify-center items-center ', }))
     label = forms.ModelMultipleChoiceField(
-        queryset=Tags.objects.all(), widget=forms.CheckboxSelectMultiple(),required=True)
+        queryset=Tags.objects.all(), widget=forms.CheckboxSelectMultiple(), required=True)
     category = forms.ModelMultipleChoiceField(
-        queryset=Categories.objects.all(), widget=forms.CheckboxSelectMultiple(),required=True)
+        queryset=Categories.objects.all(), widget=forms.CheckboxSelectMultiple(), required=True)
 
     class Meta:
         model = SocialPost
@@ -42,9 +48,8 @@ class BodyPostForm(forms.ModelForm):
         'rows': '3',
         'placeholder': 'contenido'
     }), required=False)
-    imagen = forms.ImageField(label='Banner Picture',
-                              required=False, widget=forms.FileInput)
-
+    
+    imagen = forms.ImageField(label='img',required=False,widget=forms.FileInput(attrs={'class': 'w-full text-center flex flex-col items-center justify-center items-center ', }))
     class Meta:
         model = BodyPost
         fields = ['type', 'body', 'imagen']
@@ -62,4 +67,30 @@ class SocialCommentForm(forms.ModelForm):
     class Meta:
         model = SocialComment
         fields = ['comment']
-        
+
+
+class EditPostForm(forms.ModelForm):
+    title = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline',
+        'placeholder': 'Nombre'
+    }), required=False)
+    description = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline',
+        'placeholder': 'Nombre'
+    }), required=False)
+    banner = forms.ImageField(label='Portada', required=False, widget=forms.FileInput(attrs={
+        'class': 'w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline '
+    }))
+    
+    category = forms.ModelMultipleChoiceField(
+        queryset=Categories.objects.all(), widget=forms.CheckboxSelectMultiple(), required=True)
+    label = forms.ModelMultipleChoiceField(
+        queryset=Tags.objects.all(), widget=forms.CheckboxSelectMultiple(), required=True)
+    status = forms.ChoiceField(required=True, widget=forms.Select(attrs={
+        'class': 'block w-52 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500',
+    }), choices=STATUS_OPTIONS)
+
+    class Meta:
+        model = SocialPost
+        fields = ('description', 'title','label',
+                  'category', 'banner','status',)
