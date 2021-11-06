@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tailwind_tags %}
+{% load tailwind_filters %}
+{% load humanize %}
+{% block title %}Categoria | {{query}}{% endblock title %}
+{% block extra_head %}{% endblock extra_head %}
+
+<!-- NAVBAR -->
+{% block navbar %}
+{% include 'components/navbar.html' %}
+{% endblock navbar %}
+
+
+
+<!-- main content -->
+{% block content %}
+<main class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
+    <p class="text-3xl font-extrabold leading-none sm:text-4xl xl:text-4xl my-3">
+        Etiqueta: {{query}}
+    </p>
+    <div class="grid gap-8 lg:grid-cols-3 sm:max-w-sm sm:mx-auto lg:max-w-full">
+        {% for post in tag_list %}
+        <div class="overflow-hidden transition-shadow duration-300 bg-white rounded shadow-sm">
+            <a href="{% url 'social:post-detail' post.pk %}"><img src="{{post.banner.url}}" class="object-cover w-full h-64" alt="{{post.title}}" /></a>
+            <div class="p-5 border border-t-0">
+                <p class="mb-3 text-xs font-semibold tracking-wide uppercase">
+                    <span 
+                        class="transition-colors duration-200 text-blue-gray-900 hover:text-deep-purple-accent-700"
+                        >{% for cat in post.label.all %}
+                        {{cat.name}}
+                        {% endfor %}</span>
+                    <span class="text-gray-600">— {{post.create_on|naturalday }}</span>
+                </p>
+                <a href="{% url 'social:post-detail' post.pk %}" aria-label="Category" title="Visit the East"
+                    class="inline-block mb-3 text-2xl font-bold leading-5 transition-colors duration-200 hover:text-deep-purple-accent-700">{{post.title}}</a>
+                <p class="mb-2 text-gray-700">
+                    {{post.description}}
+                </p>
+                <div class="flex items-center">
+                    <a href="{% url 'users:profile' username=post.author.username %}" aria-label="Author" title="Author" class="mr-3">
+                        <img src=" {{post.author.profile.pinture.url}}" alt="{{post.author}}"
+                            class="object-cover w-10 h-10 rounded-full shadow-sm" />
+                    </a>
+                    <div>
+                        <a href="{% url 'users:profile' username=post.author.username %}" aria-label="Author" title="Author"
+                            class="font-semibold text-gray-800 transition-colors duration-200 hover:text-deep-purple-accent-400 capitalize">{{post.author}}</a>
+                        <p class="text-sm font-medium leading-4 text-gray-600">Autor</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</main>
+{% endblock content %}
+
+
+
+
+<!-- FOOTER -->
+{% block footer %}
+
+{% endblock footer %}
+
+
+{% block javascript %}{% endblock javascript %}

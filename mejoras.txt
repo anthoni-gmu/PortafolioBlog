@@ -6,7 +6,7 @@ Paginas Web
         -Ilustraciones y construcción del main
         -Marca{
             *Logo
-            *Nombre
+            * 
         }
         -Navbar Enlaces{
             *Contacto

@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls.base import reverse_lazy
 from django.views.generic.base import View
 from .models import BodyPost, SocialPost, SocialComment, Categories
-from .forms import BodyPostForm, SocialCommentForm, EditPostForm
+from .forms import BodyPostForm, SocialCommentForm,EditPostForm,EditCommentForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic.edit import UpdateView, DeleteView
 from django.http import HttpResponseRedirect, HttpResponse
@@ -13,7 +13,7 @@ from django.db.models import Count
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-
+from django.core.paginator import Paginator,EmptyPage
 User = get_user_model()
 
 
@@ -62,15 +62,52 @@ class PostDetailView(View):
 
 class CategorySearch(View):
     def get(self, request, *args, **kwargs):
+        
         query = self.request.GET.get('query')
-        category_list = SocialPost.objects.filter(Q(category__name=query))
+        if query=="TODAS":
+            category_list = SocialPost.objects.all()
+        else:
+            category_list = SocialPost.objects.filter(Q(category__name=query))
+        
+        
+            
+        
+        p=Paginator(category_list,2)
+        
+        print('Numero de paginas')
+        print(p.num_pages)
+        
+        page_num=request.GET.get('page',1)
+        try:
+            page=p.page(page_num)
+        except EmptyPage:
+            page=p.page(1)
+        
+        categories = Categories.objects.all()
+        coutCate = SocialPost.objects.values('category').annotate(
+            Count('category')).order_by('category')
+        mylist = zip(categories, coutCate)
+        
+        
+        
+        post= SocialPost.objects.all()
         context = {
-            'category_list': category_list,
-            'query': query
+            'category_list': page,
+            'query': query,
+            'mylist':mylist,
+            'post':post,
         }
         return render(request, 'pages/social/search.html', context)
 
-
+class TagSearch(View):
+    def get(self, request, *args, **kwargs):
+        query = self.request.GET.get('query')
+        tag_list = SocialPost.objects.filter(Q(label__name=query))
+        context = {
+            'tag_list': tag_list,
+            'query': query
+        }
+        return render(request, 'pages/social/search_tag.html', context)
 
 
 @login_required
@@ -111,6 +148,12 @@ def EditPost(request, pk):
         'post': post
     }
     return render(request, 'pages/social/edit.html', context)
+
+
+
+
+
+
 
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -185,7 +228,7 @@ class AddBodyView(LoginRequiredMixin, View):
 class CommentEditView(UpdateView):
 
     model = SocialComment
-    fields = ['comment']
+    form_class = EditCommentForm
     template_name = 'pages/social/comment_edit.html'
 
     def get_success_url(self):

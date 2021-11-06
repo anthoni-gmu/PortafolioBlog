@@ -94,3 +94,16 @@ class EditPostForm(forms.ModelForm):
         model = SocialPost
         fields = ('description', 'title','label',
                   'category', 'banner','status',)
+
+class EditCommentForm(forms.ModelForm):
+    comment = forms.CharField(
+        widget=forms.Textarea(attrs={
+            'class': 'w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-green-500 focus:bg-white focus:ring-2 focus:ring-green-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out',
+            'placeholder': 'Edite su comentario'
+        }),
+        required=True
+    )
+
+    class Meta:
+        model = SocialComment
+        fields = ['comment']

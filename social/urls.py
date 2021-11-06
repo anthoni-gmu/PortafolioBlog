@@ -8,7 +8,8 @@ from .views import (
     CommentReplyView,
     CommentFather,
     CategorySearch,
-    EditPost
+    EditPost, 
+    TagSearch
 )
 app_name = "social"
 urlpatterns = [
@@ -28,6 +29,8 @@ urlpatterns = [
     path('post/<int:pk>/father',
          CommentFather.as_view(), name='comment-father'),
     path('post/search/', CategorySearch.as_view(), name='category-search'),
+    path('post/search/tag/', TagSearch.as_view(), name='tag-search'),
+    
     
 
 ]
