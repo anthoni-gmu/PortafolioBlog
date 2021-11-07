@@ -39,6 +39,7 @@ class Profile(models.Model):
     coins  =models.DecimalField(max_digits=19,decimal_places=2,default=0,blank=False)  
     followers=models.ManyToManyField(User, blank=True,related_name='followers')
     date_created =models.DateField(auto_now_add=True)
+    
     #user info
     location=models.CharField(max_length=50,null=True,blank=True)   
     url=models.CharField(max_length=80,null=True,blank=True)   
@@ -56,7 +57,6 @@ def create_user_profile(sender,instance,created,**kwargs):
 def save_user_profile(sender,instance,created,**kwargs):
     instance.profile.save()
         
-
 
 post_save.connect(create_user_profile,sender=User)
 post_save.connect(save_user_profile,sender=User)

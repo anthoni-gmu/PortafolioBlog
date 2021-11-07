@@ -2,7 +2,7 @@ from django.utils import timezone
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls.base import reverse_lazy
 from django.views.generic.base import View
-from .models import BodyPost, SocialPost, SocialComment, Categories
+from .models import BodyPost, SocialPost, SocialComment, Categories,Tags
 from .forms import BodyPostForm, SocialCommentForm,EditPostForm,EditCommentForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic.edit import UpdateView, DeleteView
@@ -13,9 +13,37 @@ from django.db.models import Count
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator,EmptyPage
+from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 User = get_user_model()
+from django.db.models import Max
 
+
+
+class HomeBlogView(View):
+    def get(self, request, *args, **kwargs):
+        post = SocialPost.objects.all()[:5]
+        lastPost =SocialPost.objects.all().order_by('-create_on')[0]
+        penultimatePost =SocialPost.objects.all().order_by('-create_on')[1]
+        lastGrup =SocialPost.objects.all().order_by('-create_on')[2:5]
+        
+        categories = Categories.objects.all()
+        coutCate = SocialPost.objects.values('category').annotate(
+            Count('category')).order_by('category')
+        mylist = zip(categories, coutCate)
+        
+        context = {
+            'post':post,
+            'lastPost':lastPost,
+            'penultimatePost':penultimatePost,
+            'lastGrup':lastGrup,
+            'mylist':mylist
+        }
+        return render(request, 'blog/index.html', context)
+
+    def post(self, request, *args, **kwargs):
+        context = {
+        }
+        return render(request, 'blog/index.html', context)
 
 class PostDetailView(View):
     def get(self, request, pk, *args, **kwargs):
@@ -68,44 +96,61 @@ class CategorySearch(View):
             category_list = SocialPost.objects.all()
         else:
             category_list = SocialPost.objects.filter(Q(category__name=query))
-        
-        
-            
-        
-        p=Paginator(category_list,2)
-        
-        print('Numero de paginas')
-        print(p.num_pages)
-        
-        page_num=request.GET.get('page',1)
+        page =request.GET.get('page',1)
+        paginator =Paginator(category_list,6)
         try:
-            page=p.page(page_num)
+            categories_list=paginator.page(page)
+        except PageNotAnInteger:
+            categories_list = paginator.page(1)
         except EmptyPage:
-            page=p.page(1)
-        
+            categories_list = paginator.page(paginator.num_pages)
         categories = Categories.objects.all()
         coutCate = SocialPost.objects.values('category').annotate(
             Count('category')).order_by('category')
         mylist = zip(categories, coutCate)
         
+        post = SocialPost.objects.all()
         
         
-        post= SocialPost.objects.all()
         context = {
-            'category_list': page,
+            'categories_list': categories_list,
             'query': query,
             'mylist':mylist,
-            'post':post,
+            'post':post
         }
         return render(request, 'pages/social/search.html', context)
+
 
 class TagSearch(View):
     def get(self, request, *args, **kwargs):
         query = self.request.GET.get('query')
-        tag_list = SocialPost.objects.filter(Q(label__name=query))
+        if query=="TODAS":
+            tag_list = SocialPost.objects.all()
+        else:
+            tag_list = SocialPost.objects.filter(Q(label__name=query))
+            
+        page =request.GET.get('page',1)
+        paginator =Paginator(tag_list,6)
+        
+        try:
+            tags_list=paginator.page(page)
+        except PageNotAnInteger:
+            tags_list = paginator.page(1)
+        except EmptyPage:
+            tags_list = paginator.page(paginator.num_pages)
+        
+        
+        tags = Tags.objects.all()
+        coutTage = SocialPost.objects.values('label').annotate(
+            Count('label')).order_by('label')
+        mylist = zip(tags, coutTage)
+        
+        post = SocialPost.objects.all()
         context = {
-            'tag_list': tag_list,
-            'query': query
+            'tag_list': tags_list,
+            'query': query,
+            'mylist': mylist,
+            'post': post,
         }
         return render(request, 'pages/social/search_tag.html', context)
 

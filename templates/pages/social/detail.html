@@ -16,13 +16,15 @@
 {% block content %}
 
 <div class="container mx-auto px-2">
-    <section class="grid md:grid-cols-3 mt-12">
+    <section class="grid md:grid-cols-3 mt-5 ">
+
 
         <main class="col-span-2 relative md:mr-2">
             <h1 class="text-3xl font-bold text-gray-800">{{post.title}}</h1>
             <div class="flex mt-2 my-2 items-center gap-4">
-                <a href="#" class="block relative">
-                    <img alt="profil" src="{{post.author.profile.pinture.url}}"
+                <a href=" {% url 'users:profile' username=post.author.username %}"
+                    class="block relative focus-visible:outline-none">
+                    <img alt="post.author.profile.name" src="{{post.author.profile.pinture.url}}"
                         class="mx-auto object-cover rounded-full h-10 w-10 " />
                 </a>
                 <div class="text-gray-500">
@@ -37,23 +39,15 @@
 
             <article>
                 <div
-                    class="inline-flex items-center bg-white leading-none ${props.textColor} rounded-full p-2 shadow text-teal text-sm mb-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        style="fill: rgba(16, 185, 129, 1);transform: ;msFilter:;">
-                        <path
-                            d="M4 11h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1zm10 0h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1zM4 21h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1zm13 0c2.206 0 4-1.794 4-4s-1.794-4-4-4-4 1.794-4 4 1.794 4 4 4z">
-                        </path>
-                    </svg>
+                    class="my-4">
+                    
                     {% for categoria in post.category.all %}
-                    <form action="{% url 'social:category-search' %}" method="GET" class=" ">
+                    <form action="{% url 'social:category-search' %}" method="GET" class="inline-flex mx-3 bg-green-500 hover:bg-green-400 text-white rounded-full h-6 px-3 justify-center items-center">
                         <input type="hidden" name="query" value="{{categoria}}" placeholder="Buscar por categoria">
-                        <button type="submit"
-                            class="inline-flex mx-3 bg-green-500 text-white rounded-full h-6 px-3 justify-center items-center ">{{categoria}}</button>
+                        <button type="submit "
+                            class="focus-visible:outline-none ">{{categoria}}</button>
                     </form>
                     {% endfor %}
-
-
-
                 </div>
                 <section>
                     {% for bodypost in bodyposts %}
@@ -62,7 +56,7 @@
                         {{bodypost.body}}
                     </p>
                     {% elif bodypost.type == "CODIGO" %}
-                    <div class="w-24 min-w-full ">
+                    <div class="w-24 min-w-full text-lg rounded-lg focus:outline-none focus-visible:outline-none">
                         <pre class="language-py "><code class="language-py">{{bodypost.body}}</code></pre>
                     </div>
                     {% elif bodypost.type == "TITULO" %}
@@ -75,23 +69,17 @@
                     {% endfor %}
                 </section>
 
+                
                 <div
-                    class="inline-flex items-center bg-white leading-none ${props.textColor} rounded-full p-2 shadow text-teal text-sm mb-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        style="fill: rgba(16, 185, 129, 1);transform: ;msFilter:;">
-                        <path
-                            d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8 8a2 2 0 0 0 2.828 0l7.172-7.172a2 2 0 0 0 0-2.828l-8-8zM7 9a2 2 0 1 1 .001-4.001A2 2 0 0 1 7 9z">
-                        </path>
-                    </svg>
+                    class="my-4">
+                    
                     {% for tag in post.label.all %}
-                    <form action="{% url 'social:tag-search' %}" method="GET" class=" ">
+                    <form action="{% url 'social:tag-search' %}" method="GET" class="inline-flex mx-3 bg-green-500 hover:bg-green-400 text-white rounded-full h-6 px-3 justify-center items-center">
                         <input type="hidden" name="query" value="{{tag}}" placeholder="Buscar por tag">
-                        <button type="submit"
-                            class="inline-flex mx-3 bg-green-500 text-white rounded-full h-6 px-3 justify-center items-center ">{{tag}}</button>
+                        <button type="submit "
+                            class="focus-visible:outline-none ">{{tag}}</button>
                     </form>
                     {% endfor %}
-
-
                 </div>
 
             </article>
@@ -189,7 +177,7 @@
                                         <hr />
                                         <div class="px-4 pb-4 ml-auto text-gray-500 md:w-1/3">
                                             <button type="submit"
-                                                class="flex justify-center py-2 px-4   bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
+                                                class="flex justify-center py-2 px-4   bg-green-600 hover:bg-green-700 focus:ring-green-500 focus:ring-offset-blue-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
                                                 <p class="mx-3">Publicar</p><svg xmlns="http://www.w3.org/2000/svg"
                                                     width="24" height="24" viewBox="0 0 24 24"
                                                     style="fill: rgba(255, 255, 255, 1);transform: ;msFilter:;">
@@ -265,7 +253,7 @@
                                         {% csrf_token %}
                                         {{formComment.comment}}
                                         <button type="submit"
-                                            class="px-4 py-2  mt-3 block  text-base rounded-full text-green-600  bg-green-200">
+                                            class="px-4 py-2  mt-3 block  text-base rounded-full text-green-600 hover:bg-green-300 focus-visible:outline-none bg-green-200">
                                             Comentar
                                         </button>
                                     </form>
@@ -282,7 +270,7 @@
                 {% if comment.is_parent %}
                 <div class="flex ">
 
-                    <a href="{% url 'users:profile' comment.author.username %}">
+                    <a href="{% url 'users:profile' comment.author.username %}" class="focus-visible:outline-none">
                         <img src="{{comment.author.profile.pinture.url}}" alt="Profile picture"
                             class="max-w-sm mx-1 object-cover rounded-full h-10 w-10  ">
                     </a>
@@ -290,7 +278,7 @@
                         <div class="bg-gray-100 dark:bg-dark-third p-2 rounded-2xl text-sm">
 
                             <a href="{% url 'users:profile' username=post.author.username %}"
-                                class="font-semibold block hover:text-blue-500 dark:text-dark-txt capitalize">
+                                class="font-semibold block hover:text-green-500 dark:text-dark-txt capitalize focus-visible:outline-none">
                                 {% if comment.author.first_name and comment.author.last_name %}
                                 {{comment.author.first_name}} {{comment.author.last_name}}
                                 {% else %}
@@ -313,16 +301,16 @@
                         <div x-data="{open:false}" class=" text-xs text-gray-500 dark:text-dark-txt my-2">
                             {% if request.user == comment.author %}
                             <a href="{% url 'social:comment-edit' post.pk comment.pk %}"
-                                class="font-semibold mx-1 cursor-pointer">Editar</a>
+                                class="font-semibold mx-1 cursor-pointer focus-visible:outline-none hover:text-green-500">Editar</a>
 
                             <a href="{% url 'social:comment-delete' post.pk comment.pk %}"
-                                class="font-semibold mx-1 cursor-pointer">Eliminar</a>
+                                class="font-semibold mx-1 cursor-pointer focus-visible:outline-none hover:text-red-500">Eliminar</a>
                             {% endif %}
 
 
 
                             <button @click="open = true"
-                                class="inline-flex space-x-2 justify-center items-center hover:bg-gray-100 dark:hover:bg-dark-third text-sm  py-2 rounded-lg cursor-pointer text-gray-500 dark:text-dark-txt">
+                                class="inline-flex space-x-2 justify-center items-center focus-visible:outline-none hover:bg-gray-100  text-sm  py-2 rounded-lg cursor-pointer text-gray-500">
                                 <i class='mr-2 bx bx-comment'></i>
                                 Responder
                             </button>
@@ -372,7 +360,7 @@
                                                     {% csrf_token %}
                                                     {{formComment.comment}}
                                                     <button type="submit"
-                                                        class="px-4 py-2  mt-3 block  text-base rounded-full text-green-600  bg-green-200">
+                                                        class="px-4 py-2  mt-3 block  text-base rounded-full text-green-600 focus-visible:outline-none bg-green-200">
                                                         Responder
                                                     </button>
                                                 </form>
@@ -391,14 +379,14 @@
                         <!-- REPLY COMMENT -->
                         {% for child_comment in comment.children %}
                         <div class="flex ">
-                            <a href="{% url 'users:profile' comment.author.username %}">
+                            <a href="{% url 'users:profile' comment.author.username %}" class="focus-visible:outline-none">
                                 <img src="{{child_comment.author.profile.pinture.url}}" alt="Profile picture"
                                     class="max-w-sm mx-1 object-cover rounded-full h-10 w-10  ">
                             </a>
                             <div>
                                 <div class="bg-gray-100 dark:bg-dark-third p-2 rounded-2xl text-sm">
                                     <a href="{% url 'users:profile' username=post.author.username %}"
-                                        class="font-semibold block hover:text-blue-500 dark:text-dark-txt">
+                                        class="font-semibold block hover:text-green-500 dark:text-dark-txt focus-visible:outline-none">
 
 
                                         {% if child_comment.author.first_name and child_comment.author.last_name %}
@@ -424,9 +412,9 @@
                                 <div class="p-2 text-xs text-gray-500 dark:text-dark-txt">
                                     {% if request.user == child_comment.author %}
                                     <a href="{% url 'social:comment-edit' post.pk child_comment.pk %}"
-                                        class="font-semibold cursor-pointer mx-2">Editar</a>
+                                        class="font-semibold cursor-pointer mx-2 hover:text-green-500 focus-visible:outline-none">Editar</a>
                                     <a href="{% url 'social:comment-delete' post.pk child_comment.pk %}"
-                                        class="font-semibold cursor-pointer mx-2">Eliminar</a>
+                                        class="font-semibold cursor-pointer mx-2 hover:text-red-500 focus-visible:outline-none">Eliminar</a>
                                     {% endif %}
 
                                 </div>
@@ -445,58 +433,12 @@
 
             </div>
         </main>
-        <aside class="col-span-2 md:col-span-1 mt-4 md:mt-0">
-            <div class="mb-8 ">
-                <p class="text-3xl font-semibold border-l-4 border-gray-800 pl-2 my-8 text-gray-700">Explorar categorías
-                </p>
-                <ul class="ml-3 text-lg font-semibold text-gray-700 ">
-                    {% for cate,count in mylist%}
-                    <form action="{% url 'social:category-search' %}" method="GET"
-                        class="border py-2 px-2 mt-2 mb-1 cursor-pointer hover:text-gray-900 rounded-sm flex justify-between">
-                        <input type="hidden" name="query" value="{{cate}}" placeholder="Buscar por categoria">
-                        <button type="submit" class="w-full">
-                            <li class="">
-                                <span class="float-left ">{{cate}}</span>
-                                <span class="text-gray-900 float-right"> {{count.category__count}}</span>
-                            </li>
-                        </button>
-                    </form>
-                    {% endfor %}
-                </ul>
-            </div>
-
-            <div id="related-posts" class="grid gap-2">
-                <p class="text-3xl font-semibold border-l-4 my-8 border-gray-800 pl-2 text-gray-700">Artículos
-                    Relacionados
-                </p>
-                {% for object in relacionPost %}
-
-                {% if post != object%}
-                <div>
-                    <div class="grid grid-cols-2   border rounded-lg">
-
-                        <a href="{% url 'social:post-detail' object.pk %}" class=" md:col-span-2 lg:col-span-1">
-                            <img src="{{object.banner.url}}" class="w-full h-auto" alt="{{object.title}}">
-                        </a>
-                        <div class="col-span-1 md:col-span-2 lg:col-span-1 px-2 flex flex-col justify-center">
-                            <a href="{% url 'social:post-detail' object.pk %}" class="text-xl cursor-pointer">
-                                {{ object.title}}
-                            </a>
-                            <p class="text-gray-600">{{ object.description}}</p>
-                        </div>
-                    </div>
-                </div>
-                {% endif %}
-
-
-                {% endfor %}
-
-
-            </div>
-        </aside>
+        {% block aside %}
+        {% include 'pages/social/aside.html' %}
+        {% endblock aside %}
+        
     </section>
 </div>
-
 
 {% endblock content %}
 

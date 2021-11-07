@@ -11,7 +11,7 @@ from django.contrib import messages
 from django.template import loader
 from django.http import HttpResponse
 from django.db.models import Count
-
+from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 
 
 
@@ -23,6 +23,17 @@ class UserProfileView(View):
         profile=Profile.objects.get(user=user)
         logged_in_user = request.user
         posts=SocialPost.objects.filter(author__profile__in=[profile.id]).order_by('-create_on')
+        
+        page =request.GET.get('page',1)
+        paginator =Paginator(posts,6)
+        
+        try:
+            postsProfile=paginator.page(page)
+        except PageNotAnInteger:
+            postsProfile = paginator.page(1)
+        except EmptyPage:
+            postsProfile = paginator.page(paginator.num_pages)
+        
         followers = profile.followers.all()
         number_of_posts=len(posts)
         form=SocialPostForm()
@@ -41,7 +52,7 @@ class UserProfileView(View):
         
         context={
             'profile':profile,
-            'posts':posts,
+            'posts':postsProfile,
             'form':form,
             'number_of_followers':number_of_followers,
             'is_following':is_following,

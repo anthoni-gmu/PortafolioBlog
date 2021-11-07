@@ -37,3 +37,4 @@ class HomeView(View):
             'posts': posts,
         }
         return render(request, 'pages/index.html', context)
+    

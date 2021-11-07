@@ -11,6 +11,7 @@ urlpatterns = [
     
     path('', HomeView.as_view(),name="home"),
     
+    
 ]
 
 if settings.DEBUG:

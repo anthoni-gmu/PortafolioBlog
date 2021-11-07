@@ -256,6 +256,41 @@
             </div>
             {% endfor %}
         </div>
+        
+  <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+    <div class="flex-1 flex justify-between ">
+
+
+      {% if posts.has_previous %}
+      <a href="?page={{posts.previous_page_number}}" class="focus-visible:outline-none"> <span
+            class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+              style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+              <path d="m5 12 7 6v-5h6v-2h-6V6z"></path>
+            </svg>Página anterior</span></a>
+      
+      {% endif %}
+      <div class=" hidden flex-col md:block">
+        <div class="justify-center text-center flex items-center  rounded-full text-white bg-green-500">
+          <span class="p-1">
+            {{posts.number}}
+          </span>
+        </div>
+        <span class="p-1 text-center">
+          Página actual
+        </span>
+      </div>
+      {% if posts.has_next %}
+       <a href="?page={{posts.next_page_number}}" class="focus-visible:outline-none"><span
+            class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Siguiente
+            página<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+              style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+              <path d="m19 12-7-6v5H6v2h6v5z"></path>
+            </svg></span></a>
+      {% endif %}
+    </div>
+
+  </div>
     </div>
 </section>
 <!--END POST-->

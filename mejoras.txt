@@ -69,7 +69,7 @@ Paginas Web
         --bug:
             :modal agregar contenido resolucion 900aprox
     4.Buscar categoria and tag
-        -Ver todas como nav 
+        -'Ver todas como nav'
         -Limitar texto de descripción
 
     5.Update Auth pages

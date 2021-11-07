@@ -8,14 +8,16 @@ from .views import (
     CommentReplyView,
     CommentFather,
     CategorySearch,
-    EditPost, 
-    TagSearch
+    EditPost,
+    TagSearch,
+    HomeBlogView
 )
 app_name = "social"
 urlpatterns = [
+    path('blog/',HomeBlogView.as_view(),name="blog"),
     path('post/<int:pk>/', PostDetailView.as_view(), name="post-detail"),
     path('post/edit/<int:pk>', EditPost, name="post-edit"),
-    
+
     path('post/delete/<int:pk>/', PostDeleteView.as_view(), name="post-delete"),
 
     path('post/<int:post_pk>/comment/delete/<int:pk>/',
@@ -28,9 +30,9 @@ urlpatterns = [
 
     path('post/<int:pk>/father',
          CommentFather.as_view(), name='comment-father'),
-    path('post/search/', CategorySearch.as_view(), name='category-search'),
+    path('post/search', CategorySearch.as_view(), name='category-search'),
     path('post/search/tag/', TagSearch.as_view(), name='tag-search'),
-    
-    
+
+
 
 ]

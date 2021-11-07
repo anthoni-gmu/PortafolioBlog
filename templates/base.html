@@ -35,7 +35,13 @@
     {% block sidebarleft %}
     {% endblock sidebarleft %}
 
-    {% block content %}{% endblock content %}
+    {% block content %}
+     {% block aside %}
+    {% endblock aside %}
+    {% endblock content %}
+
+    
+   
     {% block footer %}{% endblock footer %}
     
     {% block javascript %}{% endblock javascript %}

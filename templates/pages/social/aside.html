@@ -1,0 +1,50 @@
+{% load static %}
+<aside class="col-span-2 md:col-span-1 mt-4 md:mt-0">
+    <div class="mb-8 ">
+        <p class="text-3xl font-semibold border-l-4 border-gray-800 pl-2 my-8 text-gray-700">Explorar categorías
+        </p>
+        <ul class="ml-3 text-lg font-semibold text-gray-700 ">
+            {% for cate,count in mylist%}
+            <form action="{% url 'social:category-search' %}" method="GET"
+                class="border py-2 px-2 mt-2 mb-1 cursor-pointer hover:text-gray-900 rounded-sm flex justify-between hover:bg-green-100">
+                <input type="hidden" name="query" value="{{cate}}" placeholder="Buscar por categoria">
+                <button type="submit" class="w-full focus-visible:outline-none">
+                    <li class="">
+                        <span class="float-left ">{{cate}}</span>
+                        <span class="text-gray-900 float-right"> {{count.category__count}}</span>
+                    </li>
+                </button>
+            </form>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div id="related-posts" class="grid gap-2">
+        <p class="text-3xl font-semibold border-l-4 my-8 border-gray-800 pl-2 text-gray-700">Artículos
+            Relacionados
+        </p>
+        {% for object in relacionPost %}
+
+        {% if post != object%}
+        <div>
+            <div class="grid grid-cols-2   border rounded-lg hover:bg-green-100">
+
+                <a href="{% url 'social:post-detail' object.pk %}" class="focus-visible:outline-none  md:col-span-2 lg:col-span-1">
+                    <img src="{{object.banner.url}}" class="w-full h-auto" alt="{{object.title}}">
+                </a>
+                <div class="col-span-1 md:col-span-2 lg:col-span-1 px-2 flex flex-col justify-center">
+                    <a href="{% url 'social:post-detail' object.pk %}" class="focus-visible:outline-none text-xl cursor-pointer">
+                        {{ object.title|truncatechars:30}}
+                    </a>
+                    <p class="text-gray-600">{{ object.description|truncatechars:60}}</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+
+        {% endfor %}
+
+
+    </div>
+</aside>

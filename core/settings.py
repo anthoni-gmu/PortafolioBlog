@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     "crispy_tailwind",
     'multiselectfield',
+    'django_property_filter',
     
 ]
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'tailwind'
