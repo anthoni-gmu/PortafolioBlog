@@ -14,7 +14,6 @@ STATUS_OPTIONS = (
     ('PENDING', 'PENDING')
 )
 
-
 class SocialPostForm(forms.ModelForm):
     title = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent',
@@ -38,7 +37,6 @@ class SocialPostForm(forms.ModelForm):
         fields = ['label', 'description', 'title',
                   'category', 'banner', ]
 
-
 class BodyPostForm(forms.ModelForm):
     type = forms.ChoiceField(required=True, widget=forms.Select(attrs={
         'class': 'block w-52 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500',
@@ -54,7 +52,6 @@ class BodyPostForm(forms.ModelForm):
         model = BodyPost
         fields = ['type', 'body', 'imagen']
 
-
 class SocialCommentForm(forms.ModelForm):
     comment = forms.CharField(
         widget=forms.Textarea(attrs={
@@ -67,7 +64,6 @@ class SocialCommentForm(forms.ModelForm):
     class Meta:
         model = SocialComment
         fields = ['comment']
-
 
 class EditPostForm(forms.ModelForm):
     title = forms.CharField(widget=forms.TextInput(attrs={
@@ -107,3 +103,19 @@ class EditCommentForm(forms.ModelForm):
     class Meta:
         model = SocialComment
         fields = ['comment']
+
+class EditBodyPostForm(forms.ModelForm):
+    type = forms.ChoiceField(required=True, widget=forms.Select(attrs={
+        'class': 'block w-52 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500',
+    }), choices=BODY_OPTIONS)
+    body = forms.CharField(widget=forms.Textarea(attrs={
+        'class': 'flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent',
+        'rows': '3',
+        'placeholder': 'contenido'
+    }), required=False)
+    
+    imagen = forms.ImageField(label='img',required=False,widget=forms.FileInput(attrs={'class': 'w-full text-center flex flex-col items-center justify-center items-center ', }))
+    class Meta:
+        model = BodyPost
+        fields = ['type', 'body', 'imagen']
+

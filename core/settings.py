@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     "crispy_tailwind",
     'multiselectfield',
     'django_property_filter',
-    
+    'projects'
 ]
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'tailwind'
 

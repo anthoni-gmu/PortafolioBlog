@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls.base import reverse_lazy
 from django.views.generic.base import View
 from .models import BodyPost, SocialPost, SocialComment, Categories,Tags
-from .forms import BodyPostForm, SocialCommentForm,EditPostForm,EditCommentForm
+from .forms import BodyPostForm, SocialCommentForm,EditPostForm,EditCommentForm,EditBodyPostForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic.edit import UpdateView, DeleteView
 from django.http import HttpResponseRedirect, HttpResponse
@@ -279,8 +279,29 @@ class CommentEditView(UpdateView):
     def get_success_url(self):
         pk = self.kwargs['post_pk']
         return reverse_lazy('social:post-detail', kwargs={'pk': pk})
-    # hacer que el editar sea seguro
+    
 
+class EditBodyPostView(UpdateView):
+
+    model = BodyPost
+    form_class = EditBodyPostForm
+    template_name = 'pages/social/editbodypost.html'
+
+    def get_success_url(self):
+        pk = self.kwargs['post_pk']
+        return reverse_lazy('social:post-detail', kwargs={'pk': pk})
+
+class BodyPostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = BodyPost
+    template_name = "pages/social/body_delete.html"
+
+    def get_success_url(self):
+        pk = self.kwargs['post_pk']
+        return reverse_lazy('social:post-detail', kwargs={'pk': pk})
+
+    def test_func(self):
+        bodypost = self.get_object()
+        return self.request.user == bodypost.post.author
 
 class UserSearch(View):
     def get(self, request, *args, **kwargs):

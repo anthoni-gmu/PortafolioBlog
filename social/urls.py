@@ -10,7 +10,9 @@ from .views import (
     CategorySearch,
     EditPost,
     TagSearch,
-    HomeBlogView
+    HomeBlogView,
+    EditBodyPostView,
+    BodyPostDeleteView
 )
 app_name = "social"
 urlpatterns = [
@@ -19,11 +21,20 @@ urlpatterns = [
     path('post/edit/<int:pk>', EditPost, name="post-edit"),
 
     path('post/delete/<int:pk>/', PostDeleteView.as_view(), name="post-delete"),
-
     path('post/<int:post_pk>/comment/delete/<int:pk>/',
          CommentDeleteView.as_view(), name="comment-delete"),
+    
+    
+    path('post/<int:post_pk>/body/delete/<int:pk>/',
+         BodyPostDeleteView.as_view(), name="body-delete"),
+    
+    
     path('post/<int:post_pk>/comment/edit/<int:pk>/',
          CommentEditView.as_view(), name="comment-edit"),
+    
+    path('post/<int:post_pk>/body/edit/<int:pk>/',
+         EditBodyPostView.as_view(), name="body-edit"),
+    
 
     path('post/<int:post_pk>/comment/<int:pk>/reply',
          CommentReplyView.as_view(), name='comment-reply'),

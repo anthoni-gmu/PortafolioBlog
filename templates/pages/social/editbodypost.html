@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tailwind_tags %}
+{% load tailwind_filters %}
+
+{% block title %}Editar Post|{{post.title}}{% endblock title %}
+{% block extra_head %}{% endblock extra_head %}
+
+<!-- NAVBAR -->
+{% block navbar %}
+{% include 'components/navbar.html' %}
+{% endblock navbar %}
+
+
+<!-- MAIN -->
+<!-- left sidebar -->
+
+
+<!-- main content -->
+{% block content %}
+<section class="text-gray-600 body-font ">
+  <div class="container px-5 py-24 mx-auto">
+    <div class="flex flex-col text-center w-full mb-12">
+      <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Editar cuerpo del articulo</h1>
+      <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Recuerda ser educado en su comentario</p>
+    </div>
+    <form method="POST">
+      {% csrf_token %}
+      <div class="space-y-8  sm:space-y-5">
+        {% for hidden_field in form.hidden_fields %}
+        {{hidden_field.errors}}
+        {{hidden_field}}
+        {% endfor %}
+      </div>
+      <div class="lg:w-1/2 md:w-2/3 mx-auto">
+        <div class="flex flex-wrap -m-2">
+
+          <div class="p-2 w-full">
+            <div class="relative">
+              {{form.body}}
+              {{form.type}}
+              {{form.imagen}}
+            </div>
+          </div>
+          <div class="p-2 w-full flex">
+            <a href="{% url 'social:post-detail' object.post.pk %}"
+              class="flex mx-auto text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg">Retroceder</a>
+            <button type="submit"
+              class="flex mx-auto text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg ">Guardar</button>
+          </div>
+
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock content %}
+
+<!-- right content -->
+
+
+<!-- FOOTER -->
+{% block footer %}
+
+{% endblock footer %}
+
+
+{% block javascript %}{% endblock javascript %}

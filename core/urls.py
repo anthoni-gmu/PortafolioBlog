@@ -8,6 +8,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('users/', include('accounts.urls',namespace='users')),
     path('social/',include('social.urls',namespace='social')),
+    path('projects/',include('projects.urls',namespace='projects')),
     
     path('', HomeView.as_view(),name="home"),
     
