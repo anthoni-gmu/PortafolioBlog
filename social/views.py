@@ -1,21 +1,18 @@
 from django.utils import timezone
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.urls.base import reverse_lazy
 from django.views.generic.base import View
 from .models import BodyPost, SocialPost, SocialComment, Categories,Tags
 from .forms import BodyPostForm, SocialCommentForm,EditPostForm,EditCommentForm,EditBodyPostForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic.edit import UpdateView, DeleteView
-from django.http import HttpResponseRedirect, HttpResponse
 from django.db.models import Q
 from accounts.models import Profile
 from django.db.models import Count
-from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 User = get_user_model()
-from django.db.models import Max
 
 
 
@@ -87,7 +84,6 @@ class PostDetailView(View):
         }
         return redirect('social:post-detail', pk=pk)
 
-
 class CategorySearch(View):
     def get(self, request, *args, **kwargs):
         
@@ -119,7 +115,6 @@ class CategorySearch(View):
             'post':post
         }
         return render(request, 'pages/social/search.html', context)
-
 
 class TagSearch(View):
     def get(self, request, *args, **kwargs):
@@ -153,7 +148,6 @@ class TagSearch(View):
             'post': post,
         }
         return render(request, 'pages/social/search_tag.html', context)
-
 
 @login_required
 def EditPost(request, pk):
@@ -194,25 +188,19 @@ def EditPost(request, pk):
     }
     return render(request, 'pages/social/edit.html', context)
 
-
-
-
-
-
-
-
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    
     model = SocialPost
     template_name = 'pages/social/delete.html'
-    success_url = reverse_lazy('home') #mandar al perfil
 
-
+    def get_success_url(self):
+        post = self.get_object()
+        username = post.author
+        return reverse_lazy('users:profile', kwargs={'username': username})
 
     def test_func(self):
         post = self.get_object()
         return self.request.user == post.author
-
-
 
 class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = SocialComment
@@ -225,7 +213,6 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         post = self.get_object()
         return self.request.user == post.author
-    
     
 class CommentReplyView(LoginRequiredMixin, View):
     def post(self, request, post_pk, pk, *args, **kwargs):
@@ -240,7 +227,6 @@ class CommentReplyView(LoginRequiredMixin, View):
             new_comment.save()
         return redirect('social:post-detail', pk=post_pk)
 
-
 class CommentFather(LoginRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
         post = SocialPost.objects.get(pk=pk)
@@ -251,7 +237,6 @@ class CommentFather(LoginRequiredMixin, View):
             new_comment.post = post
             new_comment.save()
         return redirect('social:post-detail', pk=pk)
-
 
 class AddBodyView(LoginRequiredMixin, View):
     def post(self, request, post_pk, pk, *args, **kwargs):
@@ -266,10 +251,6 @@ class AddBodyView(LoginRequiredMixin, View):
 
         return redirect('social:post-detail', pk=pk)
 
-
-
-
-
 class CommentEditView(UpdateView):
 
     model = SocialComment
@@ -279,7 +260,6 @@ class CommentEditView(UpdateView):
     def get_success_url(self):
         pk = self.kwargs['post_pk']
         return reverse_lazy('social:post-detail', kwargs={'pk': pk})
-    
 
 class EditBodyPostView(UpdateView):
 

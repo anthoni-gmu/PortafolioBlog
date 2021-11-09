@@ -13,55 +13,65 @@
 
 
 <!-- MAIN -->
-<!-- left sidebar -->
-
-
 <!-- main content -->
 {% block content %}
-<section class="text-gray-600 body-font ">
-  <div class="container px-5 py-24 mx-auto">
-    <div class="flex flex-col text-center w-full mb-12">
-      <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Editar cuerpo del articulo</h1>
-      <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Recuerda ser educado en su comentario</p>
-    </div>
-    <form method="POST">
-      {% csrf_token %}
-      <div class="space-y-8  sm:space-y-5">
-        {% for hidden_field in form.hidden_fields %}
-        {{hidden_field.errors}}
-        {{hidden_field}}
-        {% endfor %}
-      </div>
-      <div class="lg:w-1/2 md:w-2/3 mx-auto">
-        <div class="flex flex-wrap -m-2">
 
-          <div class="p-2 w-full">
-            <div class="relative">
-              {{form.body}}
-              {{form.type}}
-              {{form.imagen}}
-            </div>
-          </div>
-          <div class="p-2 w-full flex">
-            <a href="{% url 'social:post-detail' object.post.pk %}"
-              class="flex mx-auto text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg">Retroceder</a>
-            <button type="submit"
-              class="flex mx-auto text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg ">Guardar</button>
-          </div>
-
+<div class="container mx-auto">
+  <form class="flex justify-center px-6 my-12" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for hidden_field in form.hidden_fields %}
+    {{hidden_field.errors}}
+    {{hidden_field}}
+    {% endfor %}
+    <div class="w-full xl:w-3/4 lg:w-11/12 flex">
+      {% if bodypost.imagen %}
+      <div class="w-full h-auto bg-gray-400 hidden lg:block lg:w-5/12 bg-cover rounded-l-lg"
+        style="background-image: url('{{bodypost.imagen.url}}')" alt="{{post.banner}}"></div>
+      {% else %}
+      <div class="w-full h-auto bg-gray-400 hidden lg:block lg:w-5/12 bg-cover rounded-l-lg"
+        style="background-image: url('')" alt=""></div>
+      {% endif %}
+      <div class="w-full lg:w-7/12 bg-white p-5 rounded-lg lg:rounded-l-none">
+        <h3 class="pt-4 text-2xl text-center">Editar contenido del artículo</h3>
+        <div class="mb-4">
+          <label class="block mb-2 text-sm font-bold text-gray-700">
+            Contenido
+          </label>
+          {{form.body}}
         </div>
-      </div>
-    </form>
-  </div>
-</section>
-{% endblock content %}
+        <div class="mb-4 md:flex md:justify-between">
+          <div class="mb-4 md:mr-2 md:mb-0">
+            <label class="block mb-2 text-sm font-bold text-gray-700">
+              Imagen
+            </label>
+            {{form.imagen}}
+          </div>
+          <div class="md:ml-2">
+            <label class="block mb-2 text-sm font-bold text-gray-700">
+              Categoria
+            </label>
+            {{form.type}}
+          </div>
+        </div>
 
-<!-- right content -->
+        <a href="{% url 'social:post-detail' object.post.pk %}"
+          class="mt-4 inline-flex items-center px-2.5 py-1.5 border border-transparent text-lg font-medium rounded dark:text-dark-txt text-green-700 dark:bg-dark-second bg-green-100 dark:hover:bg-dark-third hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-dark-third focus:ring-green-500">
+          Retroceder
+        </a>
+        <button type="submit"
+          class="mt-4 inline-flex float-right items-center px-2.5 py-1.5 border border-transparent text-lg font-medium rounded dark:text-dark-txt text-green-700 dark:bg-dark-third bg-green-100 dark:hover:bg-dark-third hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-dark-third focus:ring-green-500">
+          Actualizar
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock content %}
 
 
 <!-- FOOTER -->
 {% block footer %}
-
+{% include 'components/footer.html' %}
 {% endblock footer %}
 
 
